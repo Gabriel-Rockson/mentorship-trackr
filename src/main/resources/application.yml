@@ -1,0 +1,34 @@
+
+spring:
+  application:
+    name: MentorshipTrackr
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mentorship_trackr_db
+    username: mentorship_trackr_user
+    password: testpass1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    baseline-on-migrate: true
+    user: mentorship_trackr_user
+    password: testpass1234
+    enabled: true
+    baseline-description: "Init"
+    baseline-version: 0
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: debug
