@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -19,4 +20,8 @@ public class Permission {
 
     @Getter @Setter
     private String description;
+
+    @Getter @Setter
+    @ManyToMany(mappedBy = "permissions")
+    private Collection<Role> roles;
 }

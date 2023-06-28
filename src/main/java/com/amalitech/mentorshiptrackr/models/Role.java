@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.UUID;
 
 @Entity
@@ -20,4 +21,13 @@ public class Role {
 
     @Getter @Setter
     private String description;
+
+    @Getter @Setter
+    @ManyToMany
+    @JoinTable(
+            name = "roles_permissions",
+            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")}
+    )
+    private Collection<Permission> permissions;
 }
