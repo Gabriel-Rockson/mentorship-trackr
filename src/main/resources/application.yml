@@ -4,9 +4,9 @@ spring:
     name: MentorshipTrackr
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/mentorship_trackr_db
-    username: mentorship_trackr_user
-    password: testpass1234
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -21,8 +21,8 @@ spring:
 
   flyway:
     baseline-on-migrate: true
-    user: mentorship_trackr_user
-    password: testpass1234
+    user: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
     enabled: true
     baseline-description: "Init"
     baseline-version: 0
