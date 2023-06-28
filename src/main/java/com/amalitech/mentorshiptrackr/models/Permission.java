@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.Collection;
 import java.util.UUID;
 
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -19,15 +20,12 @@ public class Permission {
     @Getter
     private UUID id;
 
-    @Getter @Setter
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Getter @Setter
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Getter @Setter
     @ManyToMany(mappedBy = "permissions")
     private Collection<Role> roles;
 }
