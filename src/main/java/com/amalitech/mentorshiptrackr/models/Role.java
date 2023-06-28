@@ -11,25 +11,23 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "roles")
 public class Role {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Getter @Setter
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Getter @Setter
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Getter @Setter
     @ManyToMany
     @JoinTable(
             name = "roles_permissions",
@@ -38,7 +36,6 @@ public class Role {
     )
     private Collection<Permission> permissions;
 
-    @Getter @Setter
     @OneToMany(mappedBy = "role")
     private Set<Admin> admins;
 }
