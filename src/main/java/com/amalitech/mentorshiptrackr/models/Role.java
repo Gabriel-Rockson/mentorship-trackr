@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -30,4 +31,8 @@ public class Role {
             inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")}
     )
     private Collection<Permission> permissions;
+
+    @Getter @Setter
+    @OneToMany(mappedBy = "role")
+    private Set<Admin> admins;
 }
