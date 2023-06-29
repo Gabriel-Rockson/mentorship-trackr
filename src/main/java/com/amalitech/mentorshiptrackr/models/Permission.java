@@ -17,7 +17,6 @@ import java.util.UUID;
 public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Getter
     private UUID id;
 
     @Column(name = "name", nullable = false)
