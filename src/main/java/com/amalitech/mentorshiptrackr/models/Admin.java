@@ -30,6 +30,7 @@ public class Admin {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "password", nullable = false)
     private String password;
 
     @NotBlank(message = "Role is required")
