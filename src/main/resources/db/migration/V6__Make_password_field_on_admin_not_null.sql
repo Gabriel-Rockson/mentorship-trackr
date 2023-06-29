@@ -1,0 +1,2 @@
+ALTER TABLE admins
+    ALTER COLUMN password SET NOT NULL;
