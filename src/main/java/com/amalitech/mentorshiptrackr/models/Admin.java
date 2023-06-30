@@ -19,4 +19,10 @@ public class Admin extends User {
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    public Admin(String username, String firstName, String email, String password, Role role) {
+        super(username, email, password);
+        this.firstName = firstName;
+        this.role = role;
+    }
 }
