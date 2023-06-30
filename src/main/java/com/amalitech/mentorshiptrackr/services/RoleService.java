@@ -6,4 +6,6 @@ import jakarta.transaction.Transactional;
 public interface RoleService {
     @Transactional
     Role createRoleIfNotExists(Role role);
+
+    Role findRoleByNameIgnoreCase(String roleName);
 }

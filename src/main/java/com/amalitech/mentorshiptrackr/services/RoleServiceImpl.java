@@ -23,4 +23,8 @@ public class RoleServiceImpl implements RoleService {
 
         return roleInDB;
     }
+
+    public Role findRoleByNameIgnoreCase(String roleName) {
+        return roleRepository.findByNameIgnoreCase(roleName);
+    }
 }
