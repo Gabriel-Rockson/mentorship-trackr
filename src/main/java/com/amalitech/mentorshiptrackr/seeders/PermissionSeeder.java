@@ -24,8 +24,6 @@ public class PermissionSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        logger.info("The Permission seeder is running");
-
         List<Permission> permissions = new ArrayList<>();
         permissions.add(
                 Permission.builder()
@@ -42,8 +40,9 @@ public class PermissionSeeder implements CommandLineRunner {
 
         for (Permission permission : permissions) {
             permission = permissionService.createPermissionIfNotExists(permission);
+
             if (permission != null)
-                logger.info("%s permission has been seeded successfully".formatted(permission.getName()));
+                logger.info("'{}' permission has been seeded successfully.", permission.getName());
         }
     }
 }

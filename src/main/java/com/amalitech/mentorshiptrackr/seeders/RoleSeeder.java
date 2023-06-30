@@ -56,7 +56,7 @@ public class RoleSeeder implements CommandLineRunner {
             role = roleService.createRoleIfNotExists(role);
 
             if (role != null)
-                logger.info("%s role has been seeded successfully".formatted(role.getName()));
+                logger.info("'{}' role has been seeded successfully.", role.getName());
         }
     }
 }
