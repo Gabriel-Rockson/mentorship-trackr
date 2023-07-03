@@ -12,9 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -27,7 +25,7 @@ public class RoleSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<Role> roles = new ArrayList<>();
+        Set<Role> roles = new HashSet<>();
 
         roles.add(Role.builder()
                 .name("Administrator")
@@ -36,6 +34,7 @@ public class RoleSeeder implements CommandLineRunner {
         );
 
         Set<Permission> mentorshipManagerPermissions = new HashSet<>();
+
 
         Permission manageMentorshipPermission = permissionService.findByNameIgnoreCase("manage mentorship");
         Permission viewMentorshipPermission = permissionService.findByNameIgnoreCase("view mentorship");
