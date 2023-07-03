@@ -4,9 +4,9 @@ import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
 import com.amalitech.mentorshiptrackr.services.RoleService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -18,12 +18,11 @@ import java.util.Set;
 
 @Component
 @Order(2)
+@RequiredArgsConstructor
 public class RoleSeeder implements CommandLineRunner {
-    @Autowired
-    private PermissionService permissionService;
+    private final PermissionService permissionService;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
     private static final Logger logger = LoggerFactory.getLogger(RoleSeeder.class);
 
