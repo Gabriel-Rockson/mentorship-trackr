@@ -3,7 +3,7 @@ package com.amalitech.mentorshiptrackr.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter @Setter
@@ -24,6 +24,6 @@ public class Permission {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(mappedBy = "permissions")
-    private Collection<Role> roles;
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
+    private Set<Role> roles;
 }
