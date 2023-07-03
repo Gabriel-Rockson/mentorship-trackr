@@ -1,5 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
+import com.amalitech.mentorshiptrackr.exceptions.PermissionAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
 import lombok.RequiredArgsConstructor;
@@ -24,24 +25,18 @@ public class PermissionSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         List<Permission> permissions = new ArrayList<>();
-        permissions.add(
-                Permission.builder()
-                        .name("Manage mentorship")
-                        .description("create, view, update and delete on mentorship(advisors and advisees)")
-                        .build()
-        );
-        permissions.add(
-                Permission.builder()
-                        .name("View mentorship")
-                        .description("view mentorship only")
-                        .build()
-        );
+        permissions.add(Permission.builder().name("Manage mentorship").description("create, view, update and delete on mentorship(advisors and advisees)").build());
+        permissions.add(Permission.builder().name("View mentorship").description("view mentorship only").build());
 
         for (Permission permission : permissions) {
-            permission = permissionService.createPermissionIfNotExists(permission);
-
-            if (permission != null)
+            try {
+                permission = permissionService.addNewPermission(permission);
                 logger.info("'{}' permission has been seeded successfully.", permission.getName());
+            } catch (PermissionAlreadyExistsException exception) {
+                logger.info("'{}' permission already seeded.", permission.getName());
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+            }
         }
     }
 }
