@@ -1,5 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
+import com.amalitech.mentorshiptrackr.exceptions.RoleAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
@@ -20,11 +21,9 @@ import java.util.Set;
 @Order(2)
 @RequiredArgsConstructor
 public class RoleSeeder implements CommandLineRunner {
-    private final PermissionService permissionService;
-
-    private final RoleService roleService;
-
     private static final Logger logger = LoggerFactory.getLogger(RoleSeeder.class);
+    private final PermissionService permissionService;
+    private final RoleService roleService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -52,10 +51,15 @@ public class RoleSeeder implements CommandLineRunner {
         );
 
         for (Role role : roles) {
-            role = roleService.createRoleIfNotExists(role);
-
-            if (role != null)
+            try {
+                role = roleService.addNewRole(role);
                 logger.info("'{}' role has been seeded successfully.", role.getName());
+            } catch (RoleAlreadyExistsException exception) {
+                logger.info("'{}' role already seeded.", role.getName());
+            } catch (Exception exception) {
+                logger.error("Something went wrong during seeding role: {}", exception.getMessage());
+            }
+
         }
     }
 }
