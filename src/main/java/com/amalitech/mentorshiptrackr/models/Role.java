@@ -4,7 +4,6 @@ package com.amalitech.mentorshiptrackr.models;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
@@ -33,7 +32,7 @@ public class Role {
             joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")}
     )
-    private Collection<Permission> permissions;
+    private Set<Permission> permissions;
 
     @OneToMany(mappedBy = "role")
     private Set<Admin> admins;
