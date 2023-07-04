@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.exceptions;
 
-public class EntityAlreadyExistsException extends Exception {
+public class EntityAlreadyExistsException extends RuntimeException{
     public EntityAlreadyExistsException(String errorMessage) {
         super(errorMessage);
     }
