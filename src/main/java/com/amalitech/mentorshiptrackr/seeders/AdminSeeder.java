@@ -5,12 +5,12 @@ import com.amalitech.mentorshiptrackr.models.Admin;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.services.RoleService;
 import com.amalitech.mentorshiptrackr.services.UserService;
-import io.github.cdimascio.dotenv.Dotenv;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 
@@ -24,7 +24,7 @@ public class AdminSeeder implements CommandLineRunner {
 
     private final UserService userService;
 
-    Dotenv dotenv = Dotenv.load();
+    private final Environment environment;
 
     @Override
     public void run(String... args) throws Exception {
@@ -32,10 +32,10 @@ public class AdminSeeder implements CommandLineRunner {
         Role adminRole = roleService.findRoleByNameIgnoreCase("Administrator");
 
         Admin admin = new Admin(
-                dotenv.get("SEEDED_ADMIN_USERNAME"),
-                dotenv.get("SEEDED_ADMIN_FIRST_NAME"),
-                dotenv.get("SEEDED_ADMIN_EMAIL"),
-                dotenv.get("SEEDED_ADMIN_PASSWORD"),
+                environment.getProperty("SEEDED_ADMIN_USERNAME"),
+                environment.getProperty("SEEDED_ADMIN_FIRST_NAME"),
+                environment.getProperty("SEEDED_ADMIN_EMAIL"),
+                environment.getProperty("SEEDED_ADMIN_PASSWORD"),
                 adminRole
         );
 
