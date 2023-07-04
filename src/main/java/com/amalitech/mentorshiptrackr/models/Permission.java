@@ -26,4 +26,7 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.EAGER)
     private Set<Role> roles;
+
+    @Embedded
+    private AuditData auditData;
 }
