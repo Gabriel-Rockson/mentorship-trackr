@@ -3,7 +3,6 @@ package com.amalitech.mentorshiptrackr.services;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.repositories.RoleRepository;
-import com.amalitech.mentorshiptrackr.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
 
     @Override
     @Transactional
