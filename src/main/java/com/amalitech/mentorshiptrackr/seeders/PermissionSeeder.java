@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
-import com.amalitech.mentorshiptrackr.exceptions.PermissionAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class PermissionSeeder implements CommandLineRunner {
             try {
                 permission = permissionService.addNewPermission(permission);
                 logger.info("'{}' permission has been seeded successfully.", permission.getName());
-            } catch (PermissionAlreadyExistsException exception) {
+            } catch (EntityAlreadyExistsException exception) {
                 logger.info("'{}' permission already seeded.", permission.getName());
             } catch (Exception exception) {
                 logger.error(exception.getMessage());

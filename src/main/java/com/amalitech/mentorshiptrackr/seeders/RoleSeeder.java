@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
-import com.amalitech.mentorshiptrackr.exceptions.RoleAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
@@ -53,7 +53,7 @@ public class RoleSeeder implements CommandLineRunner {
             try {
                 role = roleService.addNewRole(role);
                 logger.info("'{}' role has been seeded successfully.", role.getName());
-            } catch (RoleAlreadyExistsException exception) {
+            } catch (EntityAlreadyExistsException exception) {
                 logger.info("'{}' role already seeded.", role.getName());
             } catch (Exception exception) {
                 logger.error("Something went wrong during seeding role: {}", exception.getMessage());

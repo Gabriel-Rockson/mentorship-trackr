@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.services;
 
-import com.amalitech.mentorshiptrackr.exceptions.AccountAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.User;
 import com.amalitech.mentorshiptrackr.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public User addNewAdminAccount(User admin) throws AccountAlreadyExistsException {
+    public User addNewAdminAccount(User admin) throws EntityAlreadyExistsException {
         if (usernameExists(admin.getUsername())) {
-            throw new AccountAlreadyExistsException("An account with username: %s already exists".formatted(admin.getUsername()));
+            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(admin.getUsername()));
         }
         if (emailExists(admin.getEmail())) {
-            throw new AccountAlreadyExistsException("An account with email: %s already exists".formatted(admin.getUsername()));
+            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(admin.getUsername()));
         }
 
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));

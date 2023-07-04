@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.services;
 
-import com.amalitech.mentorshiptrackr.exceptions.RoleAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.repositories.RoleRepository;
 import com.amalitech.mentorshiptrackr.repositories.UserRepository;
@@ -17,9 +17,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Role addNewRole(Role role) throws RoleAlreadyExistsException {
+    public Role addNewRole(Role role) throws EntityAlreadyExistsException {
         if (roleExists(role.getName())) {
-            throw new RoleAlreadyExistsException("A role with name: %s already exists.".formatted(role.getName()));
+            throw new EntityAlreadyExistsException("A role with name: %s already exists.".formatted(role.getName()));
         }
 
         role = roleRepository.save(role);
