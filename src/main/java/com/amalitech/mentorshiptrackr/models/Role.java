@@ -8,7 +8,8 @@ import java.util.Set;
 import java.util.UUID;
 
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -26,12 +27,11 @@ public class Role {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @Embedded
+    private AuditData auditData;
+
     @ManyToMany
-    @JoinTable(
-            name = "roles_permissions",
-            joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")}
-    )
+    @JoinTable(name = "roles_permissions", joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "id")})
     private Set<Permission> permissions;
 
     @OneToMany(mappedBy = "role")

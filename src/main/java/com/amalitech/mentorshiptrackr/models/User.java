@@ -31,6 +31,9 @@ public class User {
     private @Column(name = "password", nullable = false)
     String password;
 
+    @Embedded
+    private AuditData auditData;
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
