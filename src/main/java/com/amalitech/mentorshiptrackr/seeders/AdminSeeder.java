@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
-import com.amalitech.mentorshiptrackr.exceptions.AccountAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Admin;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.services.RoleService;
@@ -42,7 +42,7 @@ public class AdminSeeder implements CommandLineRunner {
         try {
             admin = (Admin) userService.addNewAdminAccount(admin);
             logger.info("'{}' admin account has been seeded successfully.", admin.getEmail());
-        } catch (AccountAlreadyExistsException exception) {
+        } catch (EntityAlreadyExistsException exception) {
             logger.info("'{}' admin account already seeded.", admin.getEmail());
         } catch (Exception exception) {
             logger.error("Something went wrong during seeding admin: %s".formatted(exception.getMessage()));

@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.services;
 
-import com.amalitech.mentorshiptrackr.exceptions.PermissionAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.repositories.PermissionRepository;
 import jakarta.transaction.Transactional;
@@ -15,9 +15,9 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public Permission addNewPermission(Permission permission) throws PermissionAlreadyExistsException {
+    public Permission addNewPermission(Permission permission) throws EntityAlreadyExistsException {
         if (permissionExists(permission.getName())) {
-            throw new PermissionAlreadyExistsException("A permission with name: %s already exists.".formatted(permission.getName()));
+            throw new EntityAlreadyExistsException("A permission with name: %s already exists.".formatted(permission.getName()));
         }
 
         permission = permissionRepository.save(permission);
