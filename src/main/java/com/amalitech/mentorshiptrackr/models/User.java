@@ -9,7 +9,8 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@Getter @Setter
+@Getter
+@Setter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,9 +35,14 @@ public class User {
     @Embedded
     private AuditData auditData;
 
-    public User(String username, String email, String password) {
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
+    public User(String username, String email, String password, Role role) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 }
