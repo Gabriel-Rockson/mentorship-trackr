@@ -2,9 +2,14 @@ package com.amalitech.mentorshiptrackr.services;
 
 import com.amalitech.mentorshiptrackr.dto.UserPrincipal;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.models.User;
+import com.amalitech.mentorshiptrackr.repositories.RoleRepository;
 import com.amalitech.mentorshiptrackr.repositories.UserRepository;
+import com.amalitech.mentorshiptrackr.utils.PasswordGenerator;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,13 +17,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Override
     public User addNewAdminAccount(User admin) throws EntityAlreadyExistsException {
@@ -29,8 +36,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(admin.getEmail()));
         }
 
-        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        Role adminRole = roleRepository.findByNameIgnoreCase("Administrator");
+
+        String password = admin.getPassword();
+        if (password == null)
+            password = PasswordGenerator.generatePassword(8);
+
+        admin.setPassword(passwordEncoder.encode(password));
+        admin.setRole(adminRole);
         userRepository.save(admin);
+
+        logger.info("'The password generated for the user with email {} is {}", admin.getEmail(), password);
 
         return admin;
     }

@@ -2,8 +2,6 @@ package com.amalitech.mentorshiptrackr.seeders;
 
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Admin;
-import com.amalitech.mentorshiptrackr.models.Role;
-import com.amalitech.mentorshiptrackr.services.RoleService;
 import com.amalitech.mentorshiptrackr.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,8 +18,6 @@ import org.springframework.stereotype.Component;
 public class AdminSeeder implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(AdminSeeder.class);
 
-    private final RoleService roleService;
-
     private final UserService userService;
 
     private final Environment environment;
@@ -29,14 +25,11 @@ public class AdminSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Role adminRole = roleService.findRoleByNameIgnoreCase("Administrator");
-
         Admin admin = new Admin(
                 environment.getProperty("SEEDED_ADMIN_USERNAME"),
                 environment.getProperty("SEEDED_ADMIN_FIRST_NAME"),
                 environment.getProperty("SEEDED_ADMIN_EMAIL"),
-                environment.getProperty("SEEDED_ADMIN_PASSWORD"),
-                adminRole
+                environment.getProperty("SEEDED_ADMIN_PASSWORD")
         );
 
         try {
