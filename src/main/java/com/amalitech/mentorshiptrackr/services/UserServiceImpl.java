@@ -51,6 +51,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return admin;
     }
 
+    public User addNewAdvisorAccount(User advisor) throws EntityAlreadyExistsException {
+        if (usernameExists(advisor.getUsername())) {
+            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(advisor.getUsername()));
+        }
+        if (emailExists(advisor.getEmail())) {
+            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(advisor.getEmail()));
+        }
+
+        advisor.setPassword(passwordEncoder.encode(advisor.getPassword()));
+        userRepository.save(advisor);
+
+        return advisor;
+    }
+
     @Override
     public boolean usernameExists(String username) {
         return userRepository.existsByUsername(username);
