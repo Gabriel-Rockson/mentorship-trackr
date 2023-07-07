@@ -1,5 +1,6 @@
 package com.amalitech.mentorshiptrackr.exceptions;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +19,13 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public APIErrorInfo handleEntityAlreadyExistsException(HttpServletRequest request, EntityAlreadyExistsException exception) {
+        return new APIErrorInfo(exception.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public APIErrorInfo handleEntityNotFoundException(HttpServletRequest request, EntityNotFoundException exception) {
         return new APIErrorInfo(exception.getMessage());
     }
 
