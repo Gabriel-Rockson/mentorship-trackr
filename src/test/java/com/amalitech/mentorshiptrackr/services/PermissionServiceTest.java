@@ -72,12 +72,12 @@ class PermissionServiceTest {
         given(permissionRepository.save(permission)).willReturn(permission);
 
         // when: act on the target
-        Permission new_permission = permissionService.addNewPermission(permission);
+        Permission newPermission = permissionService.addNewPermission(permission);
 
         // then
-        assertThat(new_permission.getId()).isEqualTo(permission.getId());
-        assertThat(new_permission.getName()).isEqualTo(permission.getName());
-        assertThat(new_permission.getDescription()).isEqualTo(permission.getDescription());
+        assertThat(newPermission.getId()).isEqualTo(permission.getId());
+        assertThat(newPermission.getName()).isEqualTo(permission.getName());
+        assertThat(newPermission.getDescription()).isEqualTo(permission.getDescription());
         verify(permissionRepository, times(1)).save(permission);
     }
 
