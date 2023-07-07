@@ -13,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -36,11 +37,11 @@ public class RoleSeeder implements CommandLineRunner {
         Set<Permission> mentorshipManagerPermissions = new HashSet<>();
 
 
-        Permission manageMentorshipPermission = permissionService.findByNameIgnoreCase("manage mentorship");
-        Permission viewMentorshipPermission = permissionService.findByNameIgnoreCase("view mentorship");
+        Optional<Permission> manageMentorshipPermission = permissionService.findByNameIgnoreCase("manage mentorship");
+        Optional<Permission> viewMentorshipPermission = permissionService.findByNameIgnoreCase("view mentorship");
 
-        mentorshipManagerPermissions.add(manageMentorshipPermission);
-        mentorshipManagerPermissions.add(viewMentorshipPermission);
+        manageMentorshipPermission.ifPresent(mentorshipManagerPermissions::add);
+        viewMentorshipPermission.ifPresent(mentorshipManagerPermissions::add);
 
         roles.add(Role.builder()
                 .name("Mentorship manager")
