@@ -22,4 +22,9 @@ public class Admin extends User {
         super(username, email, password, role);
         this.firstName = firstName;
     }
+
+    public Admin(String username, String firstName, String email, String password) {
+        super(username, email, password);
+        this.firstName = firstName;
+    }
 }
