@@ -3,9 +3,12 @@ package com.amalitech.mentorshiptrackr.services;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.repositories.PermissionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +33,9 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Permission findByNameIgnoreCase(String roleName) {
-        return permissionRepository.findByNameIgnoreCase(roleName);
+    public Optional<Permission> findByNameIgnoreCase(String permissionName) throws EntityNotFoundException {
+        return Optional.ofNullable(permissionRepository.findByNameIgnoreCase(permissionName).orElseThrow(
+                () -> new EntityNotFoundException("Permission with name %s not found.".formatted(permissionName))
+        ));
     }
 }
