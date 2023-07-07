@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -48,15 +49,14 @@ class PermissionServiceTest {
 
         given(permissionRepository
                 .findByNameIgnoreCase("Read admin list"))
-                .willReturn(permission1);
-
+                .willReturn(Optional.of(permission1));
         // when: act on the target
-        Permission permission = permissionService.findByNameIgnoreCase("Read admin list");
+        Optional<Permission> permission = permissionService.findByNameIgnoreCase("Read admin list");
 
         // then
-        assertThat(permission.getId()).isEqualTo(permission1.getId());
-        assertThat(permission.getName()).isEqualTo(permission1.getName());
-        assertThat(permission.getDescription()).isEqualTo(permission1.getDescription());
+        assertThat(permission.get().getId()).isEqualTo(permission1.getId());
+        assertThat(permission.get().getName()).isEqualTo(permission1.getName());
+        assertThat(permission.get().getDescription()).isEqualTo(permission1.getDescription());
         verify(permissionRepository, times(1))
                 .findByNameIgnoreCase("Read admin list");
     }
