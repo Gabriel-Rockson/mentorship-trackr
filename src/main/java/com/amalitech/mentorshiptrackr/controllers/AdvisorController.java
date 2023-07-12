@@ -1,11 +1,14 @@
 package com.amalitech.mentorshiptrackr.controllers;
 
+import com.amalitech.mentorshiptrackr.dto.ResponseHandler;
+import com.amalitech.mentorshiptrackr.dto.request.AdvisorRequest;
+import com.amalitech.mentorshiptrackr.services.UserServiceImpl;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseStatus(HttpStatus.CREATED)
@@ -13,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AdvisorController {
 
-    @PostMapping("/register")
-    public String createMentorAccount() {
-        return "Create::account";
+    private final UserServiceImpl userService;
+
+    @PostMapping("/register-account")
+    public ResponseEntity<Object> createNewAdvisorAccount(@RequestBody @NotNull @Valid AdvisorRequest advisorRequest) {
+        return ResponseHandler.successResponse(HttpStatus.CREATED, userService.createNewAdvisorAccount(advisorRequest));
     }
 }
