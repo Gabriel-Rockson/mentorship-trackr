@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface PermissionService {
     Optional<Permission> findByNameIgnoreCase(String roleName) throws EntityNotFoundException;
@@ -14,4 +15,6 @@ public interface PermissionService {
     Permission addNewPermission(Permission permission) throws EntityAlreadyExistsException;
 
     boolean permissionExists(String permissionName);
+
+    void seedPermissions(Set<Permission> permissions);
 }
