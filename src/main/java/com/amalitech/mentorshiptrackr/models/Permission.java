@@ -6,7 +6,8 @@ import lombok.*;
 import java.util.Set;
 import java.util.UUID;
 
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -29,4 +30,8 @@ public class Permission {
 
     @Embedded
     private AuditData auditData;
+
+    public Permission(String name) {
+        this.name = name;
+    }
 }
