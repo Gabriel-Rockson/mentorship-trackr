@@ -1,13 +1,15 @@
 package com.amalitech.mentorshiptrackr.exceptions;
 
+import com.amalitech.mentorshiptrackr.dto.ResponseHandler;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,36 +17,53 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    private Map<String, String> generateErrorMessage(String errorMessage) {
+        Map<String, String> errorData = new HashMap<>();
+        errorData.put("message", errorMessage);
+
+        return errorData;
+    }
+
     @ExceptionHandler(EntityAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public APIErrorInfo handleEntityAlreadyExistsException(HttpServletRequest request, EntityAlreadyExistsException exception) {
-        return new APIErrorInfo(exception.getMessage());
+    public ResponseEntity<Object> handleEntityAlreadyExistsException(HttpServletRequest request,
+                                                                     EntityAlreadyExistsException exception) {
+        return ResponseHandler.errorResponse(HttpStatus.BAD_REQUEST, generateErrorMessage(exception.getMessage()));
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public APIErrorInfo handleEntityNotFoundException(HttpServletRequest request, EntityNotFoundException exception) {
-        return new APIErrorInfo(exception.getMessage());
+    public ResponseEntity<Object> handleEntityNotFoundException(HttpServletRequest request,
+                                                                EntityNotFoundException exception) {
+        return ResponseHandler.errorResponse(HttpStatus.BAD_REQUEST, generateErrorMessage(exception.getMessage()));
     }
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public Map<String, String> handleInvalidArgumentException(HttpServletRequest request, MethodArgumentNotValidException exception) {
-        Map<String, String> errorMap = new HashMap<>();
+    public ResponseEntity<Object> handleInvalidArgumentException(HttpServletRequest request,
+                                                                 MethodArgumentNotValidException exception) {
+        Map<String, String> errorData = new HashMap<>();
         exception.getBindingResult().getFieldErrors()
-                .forEach(error -> errorMap.put(error.getField(), error.getDefaultMessage()));
+                .forEach(error -> errorData.put(error.getField(), error.getDefaultMessage()));
 
-        return errorMap;
+        return ResponseHandler.errorResponse(HttpStatus.BAD_REQUEST, errorData);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<Object> handleBadCredentialsException(HttpServletRequest request,
+                                                                BadCredentialsException exception) {
+        return ResponseHandler.errorResponse(
+                HttpStatus.UNAUTHORIZED, generateErrorMessage("Incorrect username and / " + "or password")
+        );
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<Object> handleAuthenticationException(HttpServletRequest request,
+                                                                AuthenticationException exception) {
+        return ResponseHandler.errorResponse(HttpStatus.UNAUTHORIZED, generateErrorMessage("User not authorized to " +
+                "perform action."));
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public APIErrorInfo handleAllOtherExceptions(HttpServletRequest request, Exception exception) {
-        return new APIErrorInfo(exception.getMessage());
+    public ResponseEntity<Object> handleAllOtherExceptions(HttpServletRequest request, Exception exception) {
+        return ResponseHandler.errorResponse(HttpStatus.UNAUTHORIZED, generateErrorMessage(exception.getMessage()));
     }
 }
