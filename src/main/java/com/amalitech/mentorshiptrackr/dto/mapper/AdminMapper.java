@@ -1,6 +1,9 @@
-package com.amalitech.mentorshiptrackr.dto;
+package com.amalitech.mentorshiptrackr.dto.mapper;
 
+import com.amalitech.mentorshiptrackr.dto.request.AdminRequest;
+import com.amalitech.mentorshiptrackr.dto.response.AdminResponse;
 import com.amalitech.mentorshiptrackr.models.Admin;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -8,22 +11,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AdminMapper {
 
-    public AdminDTO toDTO(Admin entity) {
-        AdminDTO dto = new AdminDTO();
+    public AdminResponse toAdminResponse(Admin entity) {
+        AdminResponse dto = new AdminResponse();
+
+        // fixme: the getAuditData() is returning null, ask Bonti
 
         dto.setId(entity.getId());
         dto.setUserName(entity.getUsername());
         dto.setFirstName(entity.getFirstName());
         dto.setEmail(entity.getEmail());
-        dto.setCreatedAt(entity.getAuditData().getCreatedAt());
-        dto.setUpdatedAt(entity.getAuditData().getUpdatedAt());
         dto.setRole(entity.getRole().getName());
 
         return dto;
     }
 
-    public Admin toEntity(CreateAdminDTO dto) {
+    public Admin toAdmin(AdminRequest dto) {
         Admin entity = new Admin();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         entity.setUsername(dto.getUsername());
         entity.setFirstName(dto.getFirstName());

@@ -1,10 +1,14 @@
 package com.amalitech.mentorshiptrackr.services;
 
 import com.amalitech.mentorshiptrackr.dto.UserPrincipal;
+import com.amalitech.mentorshiptrackr.dto.mapper.AdminMapper;
 import com.amalitech.mentorshiptrackr.dto.mapper.AdvisorMapper;
+import com.amalitech.mentorshiptrackr.dto.request.AdminRequest;
 import com.amalitech.mentorshiptrackr.dto.request.AdvisorRequest;
+import com.amalitech.mentorshiptrackr.dto.response.AdminResponse;
 import com.amalitech.mentorshiptrackr.dto.response.AdvisorResponse;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.models.Admin;
 import com.amalitech.mentorshiptrackr.models.Advisor;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.models.User;
@@ -31,6 +35,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final AdvisorMapper advisorMapper;
+    private final AdminMapper adminMapper;
 
     private void checkAccountExistence(String username, String email) {
         if (usernameExists(username)) {
@@ -88,6 +93,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public boolean emailExists(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public AdminResponse createNewAdminAccount(AdminRequest adminRequest) throws EntityAlreadyExistsException {
+        checkAccountExistence(adminRequest.getUsername(), adminRequest.getEmail());
+
+        // todo: use roleService to get the role, and raise entity not found in there
+        Role adminRole = roleRepository.findByNameIgnoreCase("Administrator");
+
+        String password = PasswordGenerator.generatePassword(8);
+
+        Admin admin = adminMapper.toAdmin(adminRequest);
+        admin.setPassword(passwordEncoder.encode(password));
+        admin.setRole(adminRole);
+        userRepository.save(admin);
+
+        logger.info("'The password generated for the user with email {} is {}", adminRequest.getEmail(), password);
+
+        return adminMapper.toAdminResponse(admin);
     }
 
     // TODO: allow email to be used for login also as `username`
