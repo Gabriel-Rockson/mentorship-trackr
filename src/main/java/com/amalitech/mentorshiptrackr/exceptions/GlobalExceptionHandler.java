@@ -5,6 +5,7 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -62,8 +63,14 @@ public class GlobalExceptionHandler {
                 "perform action."));
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Object> handleHttpMessageNotReadableException(HttpServletRequest request,
+                                                                        HttpMessageNotReadableException exception) {
+        return ResponseHandler.errorResponse(HttpStatus.BAD_REQUEST, generateErrorMessage(exception.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllOtherExceptions(HttpServletRequest request, Exception exception) {
-        return ResponseHandler.errorResponse(HttpStatus.UNAUTHORIZED, generateErrorMessage(exception.getMessage()));
+        return ResponseHandler.errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, generateErrorMessage(exception.getMessage()));
     }
 }
