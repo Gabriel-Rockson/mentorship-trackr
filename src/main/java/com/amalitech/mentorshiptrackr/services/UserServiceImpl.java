@@ -1,7 +1,11 @@
 package com.amalitech.mentorshiptrackr.services;
 
 import com.amalitech.mentorshiptrackr.dto.UserPrincipal;
+import com.amalitech.mentorshiptrackr.dto.mapper.AdvisorMapper;
+import com.amalitech.mentorshiptrackr.dto.request.AdvisorRequest;
+import com.amalitech.mentorshiptrackr.dto.response.AdvisorResponse;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
+import com.amalitech.mentorshiptrackr.models.Advisor;
 import com.amalitech.mentorshiptrackr.models.Role;
 import com.amalitech.mentorshiptrackr.models.User;
 import com.amalitech.mentorshiptrackr.repositories.RoleRepository;
@@ -26,6 +30,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final AdvisorMapper advisorMapper;
+
 
     @Override
     public User addNewAdminAccount(User admin) throws EntityAlreadyExistsException {
@@ -63,6 +69,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.save(advisor);
 
         return advisor;
+    }
+
+    public AdvisorResponse createNewAdvisorAccount(AdvisorRequest advisorRequest) throws EntityAlreadyExistsException {
+        if (usernameExists(advisorRequest.getUsername())) {
+            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(advisorRequest.getUsername()));
+        }
+        if (emailExists(advisorRequest.getEmail())) {
+            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(advisorRequest.getEmail()));
+        }
+
+        advisorRequest.setPassword(passwordEncoder.encode(advisorRequest.getPassword()));
+
+        Advisor newAdvisor = advisorMapper.toAdvisorEntity(advisorRequest);
+        userRepository.save(newAdvisor);
+
+        return advisorMapper.toAdvisorResponse(newAdvisor);
     }
 
     @Override
