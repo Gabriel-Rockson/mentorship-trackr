@@ -1,8 +1,12 @@
 package com.amalitech.mentorshiptrackr.services;
 
+import com.amalitech.mentorshiptrackr.dto.request.PermissionRequest;
+import com.amalitech.mentorshiptrackr.dto.response.PermissionResponse;
 import com.amalitech.mentorshiptrackr.exceptions.EntityAlreadyExistsException;
 import com.amalitech.mentorshiptrackr.models.Permission;
 import com.amalitech.mentorshiptrackr.repositories.PermissionRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,14 +28,19 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     @Transactional
-    public Permission addNewPermission(Permission permission) throws EntityAlreadyExistsException {
-        if (permissionExists(permission.getName())) {
-            throw new EntityAlreadyExistsException("A permission with name: %s already exists.".formatted(permission.getName()));
+    public PermissionResponse addNewPermission(PermissionRequest permissionRequest) throws EntityAlreadyExistsException {
+        if (permissionExists(permissionRequest.getName())) {
+            throw new EntityAlreadyExistsException("A permission with name: %s already exists.".formatted(permissionRequest.getName()));
         }
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        Permission permission = objectMapper.convertValue(permissionRequest, Permission.class);
 
         permission = permissionRepository.save(permission);
 
-        return permission;
+        return objectMapper.convertValue(permission, PermissionResponse.class);
     }
 
     public boolean permissionExists(String permissionName) {
@@ -39,10 +48,10 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public void seedPermissions(@NotNull @Valid Set<Permission> permissions) {
-        for (Permission permission : permissions) {
+    public void seedPermissions(@NotNull @Valid Set<PermissionRequest> permissions) {
+        for (PermissionRequest permission : permissions) {
             try {
-                permission = addNewPermission(permission);
+                addNewPermission(permission);
                 logger.info("'{}' permission has been seeded successfully.", permission.getName());
             } catch (EntityAlreadyExistsException exception) {
                 logger.info("'{}' permission already seeded.", permission.getName());

@@ -1,6 +1,6 @@
 package com.amalitech.mentorshiptrackr.seeders;
 
-import com.amalitech.mentorshiptrackr.models.Permission;
+import com.amalitech.mentorshiptrackr.dto.request.PermissionRequest;
 import com.amalitech.mentorshiptrackr.services.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -19,12 +19,12 @@ public class PermissionSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Set<Permission> permissions = new HashSet<>();
-        permissions.add(Permission.builder()
+        Set<PermissionRequest> permissions = new HashSet<>();
+        permissions.add(PermissionRequest.builder()
                 .name("Manage mentorship")
                 .description("create, view, update and delete on mentorship(advisors and advisees)").build()
         );
-        permissions.add(Permission.builder()
+        permissions.add(PermissionRequest.builder()
                 .name("View mentorship")
                 .description("view mentorship only")
                 .build()
