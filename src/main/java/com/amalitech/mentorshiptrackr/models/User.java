@@ -21,11 +21,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotBlank(message = "Username is required")
+    @NotBlank(message = "Username is required.")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email.")
+    @NotBlank(message = "Email is required.")
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
