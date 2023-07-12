@@ -1,13 +1,13 @@
 package com.amalitech.mentorshiptrackr.controllers;
 
-import com.amalitech.mentorshiptrackr.dto.CreateRoleDTO;
-import com.amalitech.mentorshiptrackr.dto.RoleDTO;
-import com.amalitech.mentorshiptrackr.dto.RoleMapper;
-import com.amalitech.mentorshiptrackr.models.Role;
+import com.amalitech.mentorshiptrackr.dto.ResponseHandler;
+import com.amalitech.mentorshiptrackr.dto.mapper.RoleMapper;
+import com.amalitech.mentorshiptrackr.dto.request.RoleRequest;
 import com.amalitech.mentorshiptrackr.services.RoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/roles")
@@ -19,9 +19,7 @@ public class RoleController {
     private final RoleMapper roleMapper;
 
     @PostMapping
-    public RoleDTO addNewRole(@RequestBody @Valid CreateRoleDTO dto) {
-        Role role = roleService.addNewRole(roleMapper.toEntity(dto));
-
-        return roleMapper.toDTO(role);
+    public ResponseEntity<Object> addNewRole(@RequestBody @Valid RoleRequest roleRequest) {
+        return ResponseHandler.successResponse(HttpStatus.CREATED, roleService.addNewRole(roleRequest));
     }
 }
