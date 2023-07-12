@@ -69,6 +69,12 @@ public class GlobalExceptionHandler {
         return ResponseHandler.errorResponse(HttpStatus.BAD_REQUEST, generateErrorMessage(exception.getMessage()));
     }
 
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Object> handleTokenExpiredException(HttpServletRequest request,
+                                                              TokenExpiredException exception) {
+        return ResponseHandler.errorResponse(HttpStatus.UNAUTHORIZED, generateErrorMessage(exception.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleAllOtherExceptions(HttpServletRequest request, Exception exception) {
         return ResponseHandler.errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, generateErrorMessage(exception.getMessage()));
