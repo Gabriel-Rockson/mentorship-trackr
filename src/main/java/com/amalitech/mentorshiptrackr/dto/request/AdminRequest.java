@@ -1,4 +1,4 @@
-package com.amalitech.mentorshiptrackr.dto;
+package com.amalitech.mentorshiptrackr.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -12,18 +12,21 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAdminDTO {
-    @NotBlank(message = "username is required.")
+public class AdminRequest {
+    @NotBlank(message = "This field is required.")
     @Size(min = 3, message = "username should have at least 3 characters.")
     private String username;
 
-    @NotBlank(message = "firstName is required.")
+    @NotBlank(message = "This field is required.")
     private String firstName;
 
-    @NotBlank
-    @Email(message = "email is required.")
+    @NotBlank(message = "This field is required.")
+    @Email(message = "Invalid email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "This field is required")
     private String role;
 }
+
+
+
