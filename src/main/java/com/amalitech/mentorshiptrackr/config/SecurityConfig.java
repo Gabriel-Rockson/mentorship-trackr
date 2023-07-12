@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @EnableWebMvc
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Value("${api.endpoint.base-url}")
