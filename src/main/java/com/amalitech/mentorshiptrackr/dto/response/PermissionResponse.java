@@ -1,5 +1,6 @@
-package com.amalitech.mentorshiptrackr.dto;
+package com.amalitech.mentorshiptrackr.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,8 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PermissionDTO {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class PermissionResponse {
     private UUID id;
     private String name;
     private String description;
