@@ -32,15 +32,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final AdvisorMapper advisorMapper;
 
+    private void checkAccountExistence(String username, String email) {
+        if (usernameExists(username)) {
+            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(username));
+        }
+        if (emailExists(email)) {
+            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(email));
+        }
+    }
 
     @Override
     public User addNewAdminAccount(User admin) throws EntityAlreadyExistsException {
-        if (usernameExists(admin.getUsername())) {
-            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(admin.getUsername()));
-        }
-        if (emailExists(admin.getEmail())) {
-            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(admin.getEmail()));
-        }
+        checkAccountExistence(admin.getUsername(), admin.getEmail());
 
         Role adminRole = roleRepository.findByNameIgnoreCase("Administrator");
 
@@ -58,12 +61,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public User addNewAdvisorAccount(User advisor) throws EntityAlreadyExistsException {
-        if (usernameExists(advisor.getUsername())) {
-            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(advisor.getUsername()));
-        }
-        if (emailExists(advisor.getEmail())) {
-            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(advisor.getEmail()));
-        }
+        checkAccountExistence(advisor.getUsername(), advisor.getEmail());
 
         advisor.setPassword(passwordEncoder.encode(advisor.getPassword()));
         userRepository.save(advisor);
@@ -72,12 +70,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public AdvisorResponse createNewAdvisorAccount(AdvisorRequest advisorRequest) throws EntityAlreadyExistsException {
-        if (usernameExists(advisorRequest.getUsername())) {
-            throw new EntityAlreadyExistsException("An account with username: %s already exists".formatted(advisorRequest.getUsername()));
-        }
-        if (emailExists(advisorRequest.getEmail())) {
-            throw new EntityAlreadyExistsException("An account with email: %s already exists".formatted(advisorRequest.getEmail()));
-        }
+        checkAccountExistence(advisorRequest.getUsername(), advisorRequest.getEmail());
 
         advisorRequest.setPassword(passwordEncoder.encode(advisorRequest.getPassword()));
 
