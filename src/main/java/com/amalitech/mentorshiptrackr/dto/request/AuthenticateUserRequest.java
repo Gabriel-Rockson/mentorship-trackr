@@ -1,4 +1,4 @@
-package com.amalitech.mentorshiptrackr.dto;
+package com.amalitech.mentorshiptrackr.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticateUserDTO {
+public class AuthenticateUserRequest {
     @NotBlank(message = "This field is required.")
     private String username;
 

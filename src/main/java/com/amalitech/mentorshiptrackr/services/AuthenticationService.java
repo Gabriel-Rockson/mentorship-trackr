@@ -1,8 +1,8 @@
 package com.amalitech.mentorshiptrackr.services;
 
-import com.amalitech.mentorshiptrackr.dto.AuthenticateUserDTO;
-import com.amalitech.mentorshiptrackr.dto.TokenDTO;
+import com.amalitech.mentorshiptrackr.dto.request.AuthenticateUserRequest;
+import com.amalitech.mentorshiptrackr.dto.response.TokenResponse;
 
 public interface AuthenticationService {
-    TokenDTO authenticateUser(AuthenticateUserDTO authenticateUserDTO);
+    TokenResponse authenticateUser(AuthenticateUserRequest authenticateUserRequest);
 }

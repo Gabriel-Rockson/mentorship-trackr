@@ -1,7 +1,7 @@
 package com.amalitech.mentorshiptrackr.controllers;
 
-import com.amalitech.mentorshiptrackr.dto.AuthenticateUserDTO;
 import com.amalitech.mentorshiptrackr.dto.ResponseHandler;
+import com.amalitech.mentorshiptrackr.dto.request.AuthenticateUserRequest;
 import com.amalitech.mentorshiptrackr.services.AuthenticationServiceImpl;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -21,9 +21,9 @@ public class AuthenticationController {
 
     @PostMapping
     public ResponseEntity<Object> authenticateUser(
-            @RequestBody @NotNull @Valid AuthenticateUserDTO authenticateUserDTO
+            @RequestBody @NotNull @Valid AuthenticateUserRequest authenticateUserRequest
     ) {
         return ResponseHandler.successResponse(HttpStatus.OK,
-                authenticationService.authenticateUser(authenticateUserDTO));
+                authenticationService.authenticateUser(authenticateUserRequest));
     }
 }

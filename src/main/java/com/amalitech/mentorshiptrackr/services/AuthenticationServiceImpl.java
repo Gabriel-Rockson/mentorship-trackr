@@ -1,8 +1,8 @@
 package com.amalitech.mentorshiptrackr.services;
 
 import com.amalitech.mentorshiptrackr.config.jwt.JWTService;
-import com.amalitech.mentorshiptrackr.dto.AuthenticateUserDTO;
-import com.amalitech.mentorshiptrackr.dto.TokenDTO;
+import com.amalitech.mentorshiptrackr.dto.request.AuthenticateUserRequest;
+import com.amalitech.mentorshiptrackr.dto.response.TokenResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,17 +18,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final JWTService jwtService;
 
     @Override
-    public TokenDTO authenticateUser(AuthenticateUserDTO authenticateUserDTO) {
+    public TokenResponse authenticateUser(AuthenticateUserRequest authenticateUserRequest) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticateUserDTO.getUsername(),
-                authenticateUserDTO.getPassword()
+                authenticateUserRequest.getUsername(),
+                authenticateUserRequest.getPassword()
         ));
 
-        UserDetails user = userService.loadUserByUsername(authenticateUserDTO.getUsername());
+        UserDetails user = userService.loadUserByUsername(authenticateUserRequest.getUsername());
         String jwtToken = jwtService.generateJwtToken(user);
 
-        return objectMapper.convertValue(jwtToken, TokenDTO.class);
+        return objectMapper.convertValue(jwtToken, TokenResponse.class);
     }
 }

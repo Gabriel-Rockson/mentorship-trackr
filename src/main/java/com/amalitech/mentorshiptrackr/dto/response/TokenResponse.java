@@ -1,4 +1,4 @@
-package com.amalitech.mentorshiptrackr.dto;
+package com.amalitech.mentorshiptrackr.dto.response;
 
 
 import lombok.*;
@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDTO {
+public class TokenResponse {
     private String token;
 }
