@@ -77,6 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return admin;
     }
 
+    @Override
     public AdvisorResponse addNewAdvisorAccount(AdvisorRequest advisorRequest) throws EntityAlreadyExistsException {
         Advisor newAdvisor = advisorMapper.toAdvisorEntity(advisorRequest);
         checkAccountExistence(newAdvisor.getUsername(), newAdvisor.getEmail());
@@ -94,6 +95,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return advisorMapper.toAdvisorResponse(newAdvisor);
     }
 
+    @Override
     public AdvisorResponse registerNewAdvisorAccount(RegisterAdvisorAccountRequest request) throws EntityAlreadyExistsException {
         Advisor newAdvisor = advisorMapper.toAdvisorEntity(request);
 
@@ -135,6 +137,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return adminMapper.toAdminResponse(admin);
     }
 
+    @Override
     public AdviseeResponse addNewAdviseeAccount(AdviseeRequest adviseeRequest) throws EntityAlreadyExistsException {
         checkAccountExistence(adviseeRequest.getUsername(), adviseeRequest.getEmail());
 
@@ -160,6 +163,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return adviseeMapper.toAdviseeResponse(advisee);
     }
 
+    @Override
     public Optional<User> findByUsernameOrEmail(String username) {
         // username used here refers to what the user is using for authentication
 
