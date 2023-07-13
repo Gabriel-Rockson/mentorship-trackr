@@ -41,6 +41,7 @@ public class SecurityConfig {
                         .requestMatchers(baseUrl + "/admins").hasAuthority(ADMINISTRATOR_AUTHORITY)
                         .requestMatchers(baseUrl + "/permissions").hasAuthority(ADMINISTRATOR_AUTHORITY)
                         .requestMatchers(baseUrl + "/advisees/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/advisors/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
                         .requestMatchers(baseUrl + "/authentication/token").permitAll()
                         .requestMatchers(baseUrl + "advisors/register-account").permitAll()
                         .anyRequest().authenticated()
