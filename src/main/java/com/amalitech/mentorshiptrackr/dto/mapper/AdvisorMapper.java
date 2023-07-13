@@ -31,16 +31,13 @@ public class AdvisorMapper {
     // convert from Advisor entity to AdvisorResponse dto
     public AdvisorResponse toAdvisorResponse(Advisor advisor) {
 
+        AdvisorResponse dto = new AdvisorResponse();
+        dto.setId(advisor.getId());
+        dto.setUsername(advisor.getUsername());
+        dto.setEmail(advisor.getEmail());
+        dto.setDateOfBirth(advisor.getDateOfBirth());
+        dto.setLocation(advisor.getLocation());
 
-        return AdvisorResponse.builder()
-                .id(advisor.getId())
-                .username(advisor.getUsername())
-                .email(advisor.getEmail())
-                .dateOfBirth(advisor.getDateOfBirth())
-                // fixme: get the audit data on the advisor object
-//                .createdAt(LocalDateTime.from(advisor.getAuditData().getCreatedAt()))
-//                .createdAt(LocalDateTime.from(advisor.getAuditData().getUpdatedAt()))
-                .location(advisor.getLocation())
-                .build();
+        return dto;
     }
 }
