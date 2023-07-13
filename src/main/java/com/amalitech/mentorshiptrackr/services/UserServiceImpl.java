@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -41,6 +42,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final AdvisorMapper advisorMapper;
     private final AdminMapper adminMapper;
     private final AdviseeMapper adviseeMapper;
+
+    static boolean isValidEmail(String email) {
+        String regex = "^(.+)@(\\S+)$";
+
+        return Pattern.compile(regex).matcher(email).matches();
+    }
 
     private void checkAccountExistence(String username, String email) {
         if (usernameExists(username)) {
@@ -153,10 +160,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return adviseeMapper.toAdviseeResponse(advisee);
     }
 
-    // TODO: allow email to be used for login also as `username`
+    public Optional<User> findByUsernameOrEmail(String username) {
+        // username used here refers to what the user is using for authentication
+
+        if (isValidEmail(username)) {
+            return userRepository.findByEmail(username);
+        }
+
+        return userRepository.findByUsername(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        // username used here refers to what the user is using for authentication
+
+        return findByUsernameOrEmail(username)
                 .map(UserPrincipal::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " is not found."));
     }
