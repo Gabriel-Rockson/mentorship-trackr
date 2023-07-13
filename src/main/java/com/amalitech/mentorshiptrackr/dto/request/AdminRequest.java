@@ -23,9 +23,6 @@ public class AdminRequest {
     @NotBlank(message = "This field is required.")
     @Email(message = "Invalid email")
     private String email;
-
-    @NotBlank(message = "This field is required")
-    private String role;
 }
 
 
