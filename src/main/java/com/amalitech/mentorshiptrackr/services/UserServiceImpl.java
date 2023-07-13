@@ -7,6 +7,7 @@ import com.amalitech.mentorshiptrackr.dto.mapper.AdvisorMapper;
 import com.amalitech.mentorshiptrackr.dto.request.AdminRequest;
 import com.amalitech.mentorshiptrackr.dto.request.AdviseeRequest;
 import com.amalitech.mentorshiptrackr.dto.request.AdvisorRequest;
+import com.amalitech.mentorshiptrackr.dto.request.RegisterAdvisorAccountRequest;
 import com.amalitech.mentorshiptrackr.dto.response.AdminResponse;
 import com.amalitech.mentorshiptrackr.dto.response.AdviseeResponse;
 import com.amalitech.mentorshiptrackr.dto.response.AdvisorResponse;
@@ -69,21 +70,30 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return admin;
     }
 
-    public User addNewAdvisorAccount(User advisor) throws EntityAlreadyExistsException {
-        checkAccountExistence(advisor.getUsername(), advisor.getEmail());
+    public AdvisorResponse addNewAdvisorAccount(AdvisorRequest advisorRequest) throws EntityAlreadyExistsException {
+        Advisor newAdvisor = advisorMapper.toAdvisorEntity(advisorRequest);
+        checkAccountExistence(newAdvisor.getUsername(), newAdvisor.getEmail());
 
-        advisor.setPassword(passwordEncoder.encode(advisor.getPassword()));
-        userRepository.save(advisor);
+        String password = PasswordGenerator.generatePassword(8);
+        newAdvisor.setPassword(passwordEncoder.encode(password));
 
-        return advisor;
+        userRepository.save(newAdvisor);
+        if (newAdvisor.getId() != null) {
+            logger.info("Password for Advisor account with username: {}, email: {} is {}",
+                    newAdvisor.getUsername(), newAdvisor.getEmail(),
+                    password);
+        }
+
+        return advisorMapper.toAdvisorResponse(newAdvisor);
     }
 
-    public AdvisorResponse createNewAdvisorAccount(AdvisorRequest advisorRequest) throws EntityAlreadyExistsException {
-        checkAccountExistence(advisorRequest.getUsername(), advisorRequest.getEmail());
+    public AdvisorResponse registerNewAdvisorAccount(RegisterAdvisorAccountRequest request) throws EntityAlreadyExistsException {
+        Advisor newAdvisor = advisorMapper.toAdvisorEntity(request);
 
-        advisorRequest.setPassword(passwordEncoder.encode(advisorRequest.getPassword()));
+        checkAccountExistence(newAdvisor.getUsername(), newAdvisor.getEmail());
 
-        Advisor newAdvisor = advisorMapper.toAdvisorEntity(advisorRequest);
+        newAdvisor.setPassword(passwordEncoder.encode(newAdvisor.getPassword()));
+
         userRepository.save(newAdvisor);
 
         return advisorMapper.toAdvisorResponse(newAdvisor);
