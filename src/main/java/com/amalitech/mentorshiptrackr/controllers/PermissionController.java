@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/permissions")
+@RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
 public class PermissionController {
     private final PermissionService permissionService;
 
-    @PostMapping
+    @PostMapping("/v1/permissions")
     public ResponseEntity<Object> addNewRole(@RequestBody @Valid PermissionRequest permissionRequest) {
         return ResponseHandler.successResponse(HttpStatus.CREATED,
                 permissionService.addNewPermission(permissionRequest));

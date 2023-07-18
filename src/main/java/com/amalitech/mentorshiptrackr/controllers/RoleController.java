@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/roles")
+@RequestMapping("/api")
 @RestController
 @ResponseStatus(HttpStatus.CREATED)
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class RoleController {
     private final RoleService roleService;
     private final RoleMapper roleMapper;
 
-    @PostMapping
+    @PostMapping("/v1/roles")
     public ResponseEntity<Object> addNewRole(@RequestBody @Valid RoleRequest roleRequest) {
         return ResponseHandler.successResponse(HttpStatus.CREATED, roleService.addNewRole(roleRequest));
     }

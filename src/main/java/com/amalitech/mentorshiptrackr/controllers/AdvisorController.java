@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @ResponseStatus(HttpStatus.CREATED)
-@RequestMapping("/api/advisors")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AdvisorController {
 
     private final UserServiceImpl userService;
 
-    @PostMapping
+    @PostMapping("/v1/advisors")
     public ResponseEntity<Object> addNewAdvisorAccount(@RequestBody @NotNull @Valid AdvisorRequest advisorRequest) {
         return ResponseHandler.successResponse(HttpStatus.CREATED, userService.addNewAdvisorAccount(advisorRequest));
     }
 
-    @PostMapping("/register-account")
+    @PostMapping("v1/advisors/register-account")
     public ResponseEntity<Object> registerNewAdvisorAccount(@RequestBody @NotNull @Valid RegisterAdvisorAccountRequest advisorRequest) {
         return ResponseHandler.successResponse(HttpStatus.CREATED,
                 userService.registerNewAdvisorAccount(advisorRequest));

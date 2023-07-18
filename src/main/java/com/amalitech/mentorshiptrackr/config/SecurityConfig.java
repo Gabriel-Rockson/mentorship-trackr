@@ -37,13 +37,13 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(baseUrl + "/roles").hasAuthority(ADMINISTRATOR_AUTHORITY)
-                        .requestMatchers(baseUrl + "/admins").hasAuthority(ADMINISTRATOR_AUTHORITY)
-                        .requestMatchers(baseUrl + "/permissions").hasAuthority(ADMINISTRATOR_AUTHORITY)
-                        .requestMatchers(baseUrl + "/advisees/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
-                        .requestMatchers(baseUrl + "/advisors/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
-                        .requestMatchers(baseUrl + "/authentication/token").permitAll()
-                        .requestMatchers(baseUrl + "advisors/register-account").permitAll()
+                        .requestMatchers(baseUrl + "/v1/roles").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/v1/admins").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/v1/permissions").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/v1/advisees/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/v1/advisors/**").hasAuthority(ADMINISTRATOR_AUTHORITY)
+                        .requestMatchers(baseUrl + "/v1/authentication/token").permitAll()
+                        .requestMatchers(baseUrl + "/v1/advisors/register-account").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)

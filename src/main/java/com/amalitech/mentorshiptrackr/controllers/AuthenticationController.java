@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/authentication/token")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationServiceImpl authenticationService;
 
-    @PostMapping
+    @PostMapping("/v1/authentication/token")
     public ResponseEntity<Object> authenticateUser(
             @RequestBody @NotNull @Valid AuthenticateUserRequest authenticateUserRequest
     ) {
