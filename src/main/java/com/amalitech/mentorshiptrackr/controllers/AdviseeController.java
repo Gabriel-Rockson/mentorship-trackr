@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/advisees")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AdviseeController {
     private final UserServiceImpl userService;
 
-    @PostMapping("/add-new-account")
+    @PostMapping("/v1/advisees")
     public ResponseEntity<Object> addNewAdviseeAccount(@NotNull @Valid @RequestBody AdviseeRequest adviseeRequest) {
         return ResponseHandler.successResponse(HttpStatus.CREATED, userService.addNewAdviseeAccount(adviseeRequest));
     }
